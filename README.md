@@ -1,2 +1,2 @@
 # madcamp3
-A WebGL based unity game
+A unity based WebGL game
