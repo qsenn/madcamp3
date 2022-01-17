@@ -10,24 +10,38 @@ public class DamageCollider : MonoBehaviour
 
     private bool canAttackFlag  = false;
     private Health targetHealth;
+    private FireCtrl fireControl;
+
+    [SerializeField] AudioSource audioSource;
 
     private void Awake()
     {
         damageCollider.isTrigger = true;
         damageCollider.enabled = false;
         pickupCollider.enabled = true;
+        fireControl = gameObject.GetComponent<FireCtrl>();
     }
 
     public void EnableDamageCollider()
     {
         damageCollider.enabled = true;
         pickupCollider.enabled = false;
+
+        if (fireControl)
+        {
+            fireControl.EnableRifle();
+        }
     }
 
     public void DisableDamageCollider()
     {
         damageCollider.enabled = false;
         pickupCollider.enabled = true;
+
+        if (fireControl)
+        {
+            fireControl.DisableRifle();
+        }
     }
 
     private void OnTriggerEnter(Collider collision)
@@ -45,12 +59,21 @@ public class DamageCollider : MonoBehaviour
         }
     }
 
-    private void OnTriggerEixt(Collider collision)
+    private void OnTriggerExit(Collider collision)
     {
-        if (collision.tag == "Player" && damageCollider.enabled)
+
+        if (collision.gameObject.CompareTag("Player") && damageCollider.enabled)
         {
             targetHealth = null;
             canAttackFlag = false;
+        }
+    }
+
+    public void PlayAudio()
+    {
+        if (audioSource != null)
+        {
+            audioSource.Play();
         }
     }
 
@@ -58,6 +81,7 @@ public class DamageCollider : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Q))
         {
+
             if (targetHealth != null)
             {
                 targetHealth.DamagePlayer(currentWeaponaDamage);

@@ -14,7 +14,6 @@ public class PickUpController : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log(collision.gameObject);
         bool itemFlag = collision.gameObject.CompareTag("Item");
         PickupAnnounce.SetActive(itemFlag);
         _canPickupFlag = itemFlag;
@@ -37,6 +36,7 @@ public class PickUpController : MonoBehaviour
     private void Start()
     {
         animator = GetComponent<Animator>();
+        gameObject.GetComponentInChildren<HandAttach>().EnableDamageCollider();
     }
 
     private void Update()
@@ -51,6 +51,8 @@ public class PickUpController : MonoBehaviour
                 _grabbingItem.transform.localEulerAngles = Vector3.zero;
                 _grabbingItem.transform.position = transform.position + new Vector3(0f, 2f, 0f);
                 _grabbingItem = null;
+
+                gameObject.GetComponentInChildren<HandAttach>().EnableDamageCollider();
             }
 
             if (_canPickupFlag && _pickupTarget)
@@ -59,22 +61,43 @@ public class PickUpController : MonoBehaviour
                 _grabbingItem = _pickupTarget;
                 _pickupTarget = null;
                 _grabbingItem.GetComponent<BoxCollider>().isTrigger = true;
+
                 _grabbingItem.GetComponentInChildren<DamageCollider>().EnableDamageCollider();
                 _grabbingItem.transform.SetParent(ItemSlot);
                 _grabbingItem.transform.localEulerAngles = Vector3.zero;
                 _grabbingItem.transform.localPosition = Vector3.zero;
 
+                gameObject.GetComponentInChildren<HandAttach>().DisableDamageCollider();
+
+                if (_grabbingItem.GetComponentInChildren<DamageCollider>().currentWeaponaDamage == 30)
+                {
+                    animator.speed = 0.5f;
+                    gameObject.GetComponent<PlayerMovement>().walkSpeed = 4f;
+                    gameObject.GetComponent<PlayerMovement>().acceleration = 6f;
+
+                }
+                else
+                {
+                    animator.speed = 1f;
+                    gameObject.GetComponent<PlayerMovement>().walkSpeed = 6f;
+                    gameObject.GetComponent<PlayerMovement>().acceleration = 10f;
+                }
+
                 PickupAnnounce.SetActive(false);
             }
         }
 
-        
-
         if (Input.GetKeyDown(KeyCode.Q))
         {
             animator.SetBool("IsAttacking", true);
+
+            if (_grabbingItem != null)
+            {
+                _grabbingItem.GetComponentInChildren<DamageCollider>().PlayAudio();
+            }
+
         }
-        else 
+        else
         {
             animator.SetBool("IsAttacking", false);
         }
