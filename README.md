@@ -25,15 +25,17 @@ Left Shift 키를 누르면서 이동하면 달릴 수 있으며 Space 키로 �
 
 * 칼
 
-<img src="https://user-images.githubusercontent.com/62409503/149926397-576dc9fd-17de-459a-8a5f-556df4c65ee6.JPG" width="400" height="150" />
+<img src="https://user-images.githubusercontent.com/62409503/149926397-576dc9fd-17de-459a-8a5f-556df4c65ee6.JPG" width="200" height="150" />
 
-* 총은 Q버튼을 누르면 발사할 수 있다.
+* 총
 
 <img src="https://user-images.githubusercontent.com/62409503/149926383-d82a568f-85da-4146-a397-bb2ab5e751e5.JPG" width="200" height="150" />
+Q버튼을 누르면 발사할 수 있다.
 
-* 도끼는 공격력이 높지만 장착할 경우 이동 속도가 느려진다.
+* 도끼
 
 <img src="https://user-images.githubusercontent.com/62409503/149926321-d84ef24b-84a8-44fe-8754-37fe32160763.JPG" width="200" height="150" />
+공격력이 높지만 장착할 경우 이동 속도가 느려진다.
 
 ### 엔딩 화면
 <img src="https://user-images.githubusercontent.com/62409503/149926361-8be4b404-7144-41e8-b1f5-42d1671fb604.JPG" width="400" height="200" />
