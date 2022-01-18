@@ -4,7 +4,7 @@ Unity와 WebGL을 이용하여 만든 3d 서바이벌 게임
 ## 게임 설명
 
 ### 입장 화면
-<img src="" width="400" height="200"/>
+<img src="https://user-images.githubusercontent.com/62409503/149926254-96197c4d-dcac-493a-abfd-df97baceed69.JPG" width="400" height="200"/>
 입장 화면에서 닉네임을 설정하고 Enter 버튼을 누르면 바로 서버에 접속하여 게임에 참여할 수 있다.
 
 ### 게임 조작
@@ -15,10 +15,15 @@ Left Shift 키를 누르면서 이동하면 달릴 수 있으며 Space 키로 �
 #### 아이템 설명
 
 모든 아이템은 마우스 우클릭으로 장착할 수 있고 아이템을 장착하고 있을 경우 다시 이 조작을 누르게 되면 아이템을 드랍하게 된다.
+
+* 칼
+<img src="https://user-images.githubusercontent.com/62409503/149926397-576dc9fd-17de-459a-8a5f-556df4c65ee6.JPG" width="400" height="200" />
 * 총은 Q버튼을 누르면 발사할 수 있다.
+<img src="https://user-images.githubusercontent.com/62409503/149926383-d82a568f-85da-4146-a397-bb2ab5e751e5.JPG" width="400" height="200" />
 * 도끼는 공격력이 높지만 장착할 경우 이동 속도가 느려진다.
+<img src="https://user-images.githubusercontent.com/62409503/149926321-d84ef24b-84a8-44fe-8754-37fe32160763.JPG" width="400" height="200" />
 
 ### 엔딩 화면
-img src="" width="400" height="200" />
+<img src="https://user-images.githubusercontent.com/62409503/149926361-8be4b404-7144-41e8-b1f5-42d1671fb604.JPG" width="400" height="200" />
 체력이 0이 되면 엔딩 화면이 뜨면서 게임이 끝난다.
 Retry 버튼을 클릭하면 게임을 다시 시작할 수 있다.
