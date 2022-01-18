@@ -55,7 +55,7 @@ public class HandAttach : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Q) && damageCollider.enabled)
+        if (Input.GetMouseButtonDown(0) && damageCollider.enabled)
         {
             handAudio.Play();
             

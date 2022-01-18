@@ -41,7 +41,7 @@ public class PickUpController : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetButtonDown("Fire1"))
+        if (Input.GetMouseButtonDown(1))
         {
             if (_grabbingItem)
             {
@@ -87,7 +87,7 @@ public class PickUpController : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (Input.GetMouseButtonDown(0))
         {
             animator.SetBool("IsAttacking", true);
 

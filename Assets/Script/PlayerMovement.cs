@@ -15,6 +15,11 @@ public class PlayerMovement : MonoBehaviour
     public float moveSpeed = 6f;
     float movementMuliplier = 10f;
 
+    [Header("Rotation")]
+    public float sensitivity = 10f;
+    public float maxYAngle = 80f;
+    private Vector2 currentRotation;
+
     public float turnSmoothTime = 0.1f;
     float turnSmoothVelocity;
 
@@ -32,7 +37,7 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Ground Check")]
     bool isGrounded;
-    float groundDistance = 0.4f;
+    float groundDistance = 0.8f;
     public LayerMask groundMask;
 
     // Start is called before the first frame update
@@ -47,45 +52,54 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // isGrounded = Physics.Raycast(transform.position, Vector3.down, playerHeight / 2 + 0.1f);
-        //isGrounded = Physics.CheckSphere(transform.position - new Vector3(0, 1, 0), groundDistance, groundMask);
+
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
 
-        float horizontal = Input.GetAxisRaw("Horizontal");
         float vertical = Input.GetAxisRaw("Vertical");
+        float horizontal = Input.GetAxisRaw("Horizontal");
 
-        bool hasHorizontalInput = !Mathf.Approximately(horizontal, 0f);
+        float mouseX = Input.GetAxis("Mouse X");
+        float mouseY = Input.GetAxis("Mouse Y");
+
+        mouseY = Mathf.Clamp(mouseY, -maxYAngle, maxYAngle);
+    
         bool hasVerticalInput = !Mathf.Approximately(vertical, 0f);
+        bool hasHorizontalInput = !Mathf.Approximately(horizontal, 0f);
         bool isWalking = hasHorizontalInput || hasVerticalInput;
 
         animator.SetBool("IsWalking", isWalking);
 
-        Vector3 direction = new Vector3(horizontal, 0f, vertical).normalized;
+        Vector3 movePos = new Vector3(horizontal, 0f, vertical).normalized;
+        
+        currentRotation.x += mouseX * sensitivity;
+        currentRotation.y -= mouseY * sensitivity;
+        currentRotation.x = Mathf.Repeat(currentRotation.x, 360);
+        currentRotation.y = Mathf.Clamp(currentRotation.y, -maxYAngle, maxYAngle);
 
-        if (direction.magnitude >= 0.1f) 
+        // cam.transform.rotation = Quaternion.Euler(currentRotation.y, currentRotation.x, 0f);
+        transform.rotation = Quaternion.Euler(0f, currentRotation.x, 0f);
+
+        // cam.transform.rotation = Quaternion.Euler(20f + currentRotation.y, currentRotation.x, 0f);
+        // cam.Rotate(20f + mouseY, 0f, 0f);
+        // cam.transform.rotation = Quaternion.Euler(currentRotation.y, cam.transofrm.x, 0f);
+
+        // transform.rotation = Quaternion.Euler(0f, currentRotation.x, 0f);
+        Vector3 moveDir = Quaternion.Euler(0f, currentRotation.x, 0f) * movePos;
+
+        if (Input.GetKey(sprintKey) && isGrounded)
         {
-            float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + cam.eulerAngles.y;
-            float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
-            transform.rotation = Quaternion.Euler(0f, angle, 0f);
-
-            Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
-
-            if (Input.GetKey(sprintKey) && isGrounded)
-            {
-                moveSpeed = acceleration;
-                animSpeedControl = 2f;
-            }
-            else
-            {
-                moveSpeed = walkSpeed;
-                animSpeedControl = 1.5f;
-            }
-
-            animator.SetFloat("WalkingSpeed", animSpeedControl);
-            rigidBody.MovePosition(rigidBody.position + moveDir.normalized * Time.deltaTime * moveSpeed);
-            // rigidBody.AddForce(moveDir.normalized * moveSpeed, ForceMode.Acceleration);
+            moveSpeed = acceleration;
+            animSpeedControl = 2f;
+        }
+        else
+        {
+            moveSpeed = walkSpeed;
+            animSpeedControl = 1.5f;
         }
 
+        animator.SetFloat("WalkingSpeed", animSpeedControl);
+        rigidBody.MovePosition(rigidBody.position + moveDir * Time.deltaTime * moveSpeed);
+            
         if (Input.GetKey(jumpKey) && isGrounded)
         {
             rigidBody.velocity = new Vector3(rigidBody.velocity.x, jumpForce, rigidBody.velocity.z);
@@ -97,4 +111,10 @@ public class PlayerMovement : MonoBehaviour
             animator.SetBool("IsJumping", false);
         }
     }
+
+    void LateUpdate()
+    {
+        cam.transform.rotation = Quaternion.Euler(currentRotation.y, currentRotation.x, 0f);
+    }
+
 }

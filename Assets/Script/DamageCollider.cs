@@ -79,7 +79,7 @@ public class DamageCollider : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (Input.GetMouseButtonDown(0))
         {
 
             if (targetHealth != null)

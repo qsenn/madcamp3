@@ -8,6 +8,8 @@ public class Health : MonoBehaviour
 
     public int curHealth = 0;
 
+    [SerializeField] LayerMask currentPlayer;
+
     // public event Action<float> OnHealthPctChanged = delegate {};
 
     public HealthBar healthBar;
@@ -44,7 +46,10 @@ public class Health : MonoBehaviour
 
     public void playerDied()
     {
-        LevelManager.instance.GameOver();
+        if (gameObject.layer == 9)
+        {
+            LevelManager.instance.GameOver();
+        }
         gameObject.SetActive(false);
     }
 }

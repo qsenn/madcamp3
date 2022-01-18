@@ -17,8 +17,7 @@ public class FireCtrl : MonoBehaviour
     void Update()
     {
         // 마우스 왼쪽 버튼 클릭시 Fire 메서드 호출
-        // Input.GetMouseButton(1)이면 마우스 우클릭하고 있는 동안 연사
-        if (Input.GetMouseButtonDown(1))
+        if (Input.GetKeyDown(KeyCode.Q))
         {
             Fire();
         }
